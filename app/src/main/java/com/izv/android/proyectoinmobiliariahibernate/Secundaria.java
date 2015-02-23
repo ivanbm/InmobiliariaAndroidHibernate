@@ -54,6 +54,7 @@ public class Secundaria extends Activity {
     private ImageView ivFoto;
     private int posicion = 0;
     private final static String URLBASE = "http://192.168.1.101:8080/Practica4AADInmobiliariaHibernate/";
+    private final static int PICK_IMG = 6;
     private static int PICK = 3;
 
     @Override
@@ -217,9 +218,9 @@ public class Secundaria extends Activity {
     public void pick(){
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(intent, PICK);
-        }
+        //if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(intent, PICK_IMG);
+        //}
     }
 
     private String archivoSubir;
@@ -235,18 +236,22 @@ public class Secundaria extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK && resultCode == RESULT_OK) {
-            Uri uri = data.getData();
-            String rutaUriArchivo = getPath(uri);
-            archivoSubir = getPath(uri);
-            Toast.makeText(this, rutaUriArchivo, Toast.LENGTH_SHORT).show();
-            new Upload().execute();
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case PICK_IMG:
+                    System.out.println("ENTROOO");
+                    Uri uri = data.getData();
+                    String rutaUriArchivo = getPath(uri);
+                    archivoSubir = getPath(uri);
+                    Toast.makeText(this, rutaUriArchivo, Toast.LENGTH_SHORT).show();
+                    new Upload().execute();
+            }
 
         }
     }
 
-    class Upload extends AsyncTask<String,Integer,String> {
 
+    class Upload extends AsyncTask<String,Integer,String> {
 
         //String url="http://192.168.208.187:8080/Inmobiliaria/subir/ControlSubir";
         String url=URLBASE+"control?target=inmueble&op=subir&action=op&idInmuebleFoto="+id;
