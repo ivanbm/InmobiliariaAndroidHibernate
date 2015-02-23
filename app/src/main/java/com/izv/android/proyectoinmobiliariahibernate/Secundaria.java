@@ -249,7 +249,7 @@ public class Secundaria extends Activity {
 
 
         //String url="http://192.168.208.187:8080/Inmobiliaria/subir/ControlSubir";
-        String url=URLBASE+"control?target=inmueble&op=view&action=view&id="+id;
+        String url=URLBASE+"control?target=inmueble&op=subir&action=op&idInmuebleFoto="+id;
 
 
 
